@@ -123,19 +123,30 @@ export default {
       this.destination_city_name = cityName
       this.isSearchingDestination = false
     },
-    handleSubmit() {
+    async handleSubmit() {
       const errors = []
-      const {origin, destination, weight} = this.payload
-      if(!origin || !origin.trim()) errors.push('Silahkan isi asal kota')
-      if (!destination || !destination.trim()) errors.push('Silahkan isi tujuan')
+      const { origin, destination, weight } = this.payload
+      if (!origin || !origin.trim()) errors.push('Silahkan isi asal kota')
+      if (!destination || !destination.trim())
+        errors.push('Silahkan isi tujuan')
       if (!weight || !weight.trim()) errors.push('Mohon masukkan berat barang')
-      if(errors.length) {
-        this.$store.commit('setErrors', errors)
+      if (errors.length) {
+        await this.$store.commit('setErrors', errors)
         setTimeout(() => {
           this.$store.commit('setErrors', [])
         }, 3000)
       } else {
-        this.$store.dispatch('postCost', this.payload)
+        await this.$store.dispatch('postCost', this.payload)
+        this.payload = this.clearPayload()
+      }
+    },
+
+    clearPayload() {
+      return {
+        origin: '',
+        destination: '',
+        weight: '',
+        courier: '',
       }
     },
   },
