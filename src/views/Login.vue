@@ -15,6 +15,7 @@
             id="validationDefaultUsername"
             aria-describedby="inputGroupPrepend2"
             required
+            autofocus
           />
         </div>
         <div class="input-group">
